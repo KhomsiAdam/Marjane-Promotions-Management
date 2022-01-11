@@ -43,6 +43,7 @@ exports.register = (req, res, next) => {
       const user = new Admin({
         email: email,
         password: hashedPw,
+        status: 'Active',
         centerId: centerId
       });
       return user.save();

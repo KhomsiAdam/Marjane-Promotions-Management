@@ -43,7 +43,10 @@ export class ManagerPromotions extends View {
             ${promotion.fidelity} MAD
           </td>
           <td class="px-4 py-3 text-sm">
-            ${promotion.day}
+            ${promotion.startingDate}
+          </td>
+          <td class="px-4 py-3 text-sm">
+            ${promotion.endingDate}
           </td>
           <td class="px-4 py-3 text-sm">            
             <span class="px-2 py-1 font-semibold leading-tight text-white rounded-full ${statusClass}" >
@@ -79,6 +82,7 @@ export class ManagerPromotions extends View {
                       <th class="px-4 py-3">Discount</th>
                       <th class="px-4 py-3">Fidelity</th>
                       <th class="px-4 py-3">Starting</th>
+                      <th class="px-4 py-3">Ending</th>
                       <th class="px-4 py-3">Status</th>
                       <th class="px-4 py-3">Comment</th>
                     </tr>

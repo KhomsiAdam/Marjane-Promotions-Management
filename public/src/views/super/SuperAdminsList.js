@@ -12,6 +12,7 @@ export class SuperAdminsList extends View {
     let html = '';
     if (data.admins && data.admins.length > 0) {
       for (let admin of data.admins) {
+        const createdAt = new Date(admin.createdAt).toISOString().substring(0, 10);
         html += `
         <tr class="text-gray-700 dark:text-gray-400">
           <td class="px-4 py-3">
@@ -26,7 +27,7 @@ export class SuperAdminsList extends View {
             ${admin['center.city']}
           </td>
           <td class="px-4 py-3 text-sm">
-            ${admin.createdAt}
+            ${createdAt}
           </td>
           <td class="px-4 py-3">
             <div class="flex items-center justify-center space-x-4 text-sm">

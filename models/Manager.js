@@ -21,6 +21,10 @@ const Manager = sequelize.define('manager', {
     type: Sequelize.STRING,
     allowNull: false
   },
+  status: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   centerId: {
     type: Sequelize.INTEGER,
     allowNull: false

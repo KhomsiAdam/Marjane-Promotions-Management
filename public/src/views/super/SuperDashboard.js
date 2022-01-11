@@ -137,8 +137,9 @@ export class SuperDashboard extends View {
   async viewLogs() {
     const data = await fetchWithToken('POST', 'http://localhost:4000/super/logs', localStorage.getItem('token'));
     let html = '';
-    if (data.Logs && data.Logs.length > 0) {
+    if (data.logs && data.logs.length > 0) {
     for (let log of data.logs) {
+      const createdAt = new Date(log.createdAt).toISOString().substring(0, 10);
       html += `
         <tr class="text-gray-700 dark:text-gray-400">
           <td class="px-4 py-3">
@@ -148,10 +149,10 @@ export class SuperDashboard extends View {
             ${log.action}
           </td>
           <td class="px-4 py-3 text-sm">
-            ${log.msg} MAD
+            ${log.msg}
           </td>
           <td class="px-4 py-3 text-sm">
-            ${log.createdAt}
+            ${createdAt}
           </td>
         </tr>
       `

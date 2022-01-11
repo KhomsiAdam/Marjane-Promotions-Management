@@ -14,10 +14,14 @@ const Promotion = sequelize.define('promotion', {
     allowNull: false
   },
   fidelity: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.DOUBLE,
     allowNull: false
   },
-  day: {
+  startingDate: {
+    type: Sequelize.DATEONLY,
+    allowNull: false
+  },
+  endingDate: {
     type: Sequelize.DATEONLY,
     allowNull: false
   },

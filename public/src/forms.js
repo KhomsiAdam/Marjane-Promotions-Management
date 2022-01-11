@@ -77,33 +77,42 @@ export const initForms = () => {
     // Handling the sign in / login
     const product = document.getElementById('product');
     const discount = document.getElementById('discount');
-    const date = document.getElementById('date');
+    const startingDate = document.getElementById('startingDate');
+    const duration = document.getElementById('duration');
     const promotion_error = document.getElementById('promotion-error');
+
+    // Set the current date as the minimal value for the input date
+    const current_date = new Date().toISOString().substring(0, 10);
+    startingDate.setAttribute("min", current_date);
+
     document.getElementById('promotion-submit').addEventListener('click', (e) => {
       e.preventDefault();
       // Check for empty values
-      if (product.value === '' || discount.value === '' || date.value === '') {
+      if (product.value === '' || discount.value === '' || startingDate.value === '' || duration.value === '') {
         promotion_error.innerHTML = 'Please fill all the fields.';
         addError(product);
         addError(discount);
-        addError(date);
+        addError(startingDate);
+        addError(duration);
       } else {
         // Check for special characters
-        if (regexInputs(product.value) && regexInputs(discount.value) && regexInputs(date.value)) {
+        if (regexInputs(product.value) && regexInputs(discount.value) && regexInputs(startingDate.value) && regexInputs(duration.value)) {
           // Sign in the staff to view candidates
           const promotion = new Promotion();
-          promotion.create(product.value, discount.value, date.value);
-        } else if (!regexInputs(product.value) || !regexInputs(discount.value) || !regexInputs(date.value)) {
+          promotion.create(product.value, discount.value, startingDate.value, duration.value);
+        } else if (!regexInputs(product.value) || !regexInputs(discount.value) || !regexInputs(startingDate.value) || !regexInputs(duration.value)) {
           promotion_error.innerHTML = 'Please enter valid characters.';
           regexError(product);
           regexError(discount);
-          regexError(date);
+          regexError(startingDate);
+          regexError(duration);
         }
       }
     })
     removeError(product, promotion_error);
     removeError(discount, promotion_error);
-    removeError(date, promotion_error);
+    removeError(startingDate, promotion_error);
+    removeError(duration, promotion_error);
   }
 
   // Update promotion form

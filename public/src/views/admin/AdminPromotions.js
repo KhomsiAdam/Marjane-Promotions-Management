@@ -41,10 +41,13 @@ export class AdminPromotions extends View {
             ${promotion.discount}%
           </td>
           <td class="px-4 py-3 text-sm">
-            ${promotion.fidelity} MAD
+            ${promotion.fidelity} points
           </td>
           <td class="px-4 py-3 text-sm">
-            ${promotion.day}
+            ${promotion.startingDate}
+          </td>
+          <td class="px-4 py-3 text-sm">
+            ${promotion.endingDate}
           </td>
           <td class="px-4 py-3 text-sm">            
             <span class="px-2 py-1 font-semibold leading-tight text-white rounded-full ${statusClass}" >
@@ -84,6 +87,7 @@ export class AdminPromotions extends View {
                       <th class="px-4 py-3">Discount</th>
                       <th class="px-4 py-3">Fidelity</th>
                       <th class="px-4 py-3">Starting</th>
+                      <th class="px-4 py-3">Ending</th>
                       <th class="px-4 py-3">Status</th>
                       <th class="px-4 py-3">Comment</th>
                     </tr>
@@ -128,12 +132,24 @@ export class AdminPromotions extends View {
 
               <label class="block mt-4 text-sm">
                 <span class="text-gray-700 dark:text-white">Discount</span>
-                <input type="number" name="discount" id="discount" class="block w-full px-3 py-2 mt-3 text-sm dark:border-gray-600 dark:bg-white focus:border-purple-400 rounded-lg focus:outline-none focus:shadow-outline-purple dark:text-gray-900 dark:focus:shadow-outline-gray" placeholder="max 50 (and 20 for multimedia)">
+                <input type="number" name="discount" id="discount" class="block w-full px-3 py-2 mt-3 text-sm dark:border-gray-600 dark:bg-white focus:border-purple-400 rounded-lg focus:outline-none focus:shadow-outline-purple dark:text-gray-900 dark:focus:shadow-outline-gray" placeholder="max 50 (and 20 for multimedia)" min="5" max="50">
               </label>
 
               <label class="block mt-4 text-sm">
                 <span class="text-gray-700 dark:text-white">Starting Date</span>
-                <input type="date" name="date" id="date" class="block w-full px-3 py-2 mt-3 text-sm dark:border-gray-600 dark:bg-white focus:border-purple-400 rounded-lg focus:outline-none focus:shadow-outline-purple dark:text-gray-900 dark:focus:shadow-outline-gray" placeholder="manager-exemple@marjane.ma">
+                <input type="date" name="startingDate" id="startingDate" class="block w-full px-3 py-2 mt-3 text-sm dark:border-gray-600 dark:bg-white focus:border-purple-400 rounded-lg focus:outline-none focus:shadow-outline-purple dark:text-gray-900 dark:focus:shadow-outline-gray" placeholder="manager-exemple@marjane.ma">
+              </label>
+
+              <label class="block mt-4 text-sm">
+                <span class="text-gray-700 dark:text-white">
+                  Duration
+                </span>
+                <select name="duration" id="duration" class="block w-full px-3 py-2 mt-3 text-sm dark:text-gray-900 dark:border-gray-600 dark:bg-white rounded-lg focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
+                  <option selected hidden disabled value="">Select a duration</option>
+                  <option value="7">7 days</option>
+                  <option value="15">15 days</option>
+                  <option value="20">20 days</option>
+                </select>
               </label>
               
               <button id="promotion-submit" class="mt-4 flex items-center justify-between w-28 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-gray-800 border border-transparent rounded-lg active:bg-yellow-500 hover:bg-yellow-500 focus:outline-none focus:shadow-outline-yellow">

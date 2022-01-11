@@ -12,6 +12,7 @@ export class AdminManagersList extends View {
     let html = '';
     if (data.managers && data.managers.length > 0) {
       for (let manager of data.managers) {
+        const createdAt = new Date(admin.createdAt).toISOString().substring(0, 10);
         html += `
         <tr class="text-gray-700 dark:text-gray-400">
           <td class="px-4 py-3">
@@ -29,7 +30,7 @@ export class AdminManagersList extends View {
             ${manager['center.city']}
           </td>
           <td class="px-4 py-3 text-sm">
-            ${manager.createdAt}
+            ${createdAt}
           </td>
           <td class="px-4 py-3">
             <div class="flex items-center justify-center space-x-4 text-sm">

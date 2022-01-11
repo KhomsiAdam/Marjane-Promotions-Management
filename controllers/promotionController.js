@@ -17,12 +17,10 @@ exports.create = (req, res, next) => {
     throw error;
   }
   const discount = req.body.discount;
-  const day = req.body.day;
+  const startingDate = req.body.startingDate;
+  const endingDate = req.body.endingDate;
   const productId = req.body.productId;
   const centerId = req.centerId;
-  const fidelity = (discount / 5) * 50;
-  console.log(discount + '%');
-  console.log(fidelity + 'dh');
 
   Product.findOne({ where: { id: productId }, raw: true })
     .then(product => {
@@ -32,14 +30,17 @@ exports.create = (req, res, next) => {
         throw error;
       }
       console.log(product);
-      if ((product.category === 'Multimedia' && discount <= 20) || (product.category !== 'Multimedia' && discount <= 50)) {
+      if ((product.category === 'Multimedia' && discount <= 20 && product.price > 50) || (product.category !== 'Multimedia' && discount <= 50 && product.price > 50)) {
         console.log('OK');
+        const fidelity = (product.price * discount) / 100;
+        console.log(fidelity + ' points');
         const promotion = new Promotion({
           discount: discount,
           fidelity: fidelity,
           status: 'Pending',
           currentStock: product.quantity,
-          day: day,
+          startingDate: startingDate,
+          endingDate: endingDate,
           productId: productId,
           centerId: centerId
         });
@@ -67,7 +68,7 @@ exports.create = (req, res, next) => {
             }
             next(err);
           });
-      } else if ((product.category === 'Multimedia' && discount > 20) || (product.category !== 'Multimedia' && discount > 50)) {
+      } else if ((product.category === 'Multimedia' && discount > 20 && product.price > 50) || (product.category !== 'Multimedia' && discount > 50 && product.price > 50)) {
         console.log('NO');
         let message;
         if (product.category === 'Multimedia') {
@@ -75,6 +76,12 @@ exports.create = (req, res, next) => {
         } else {
           message = 'Product discount must not exceed 50%.';
         }
+        res.status(400).json({
+          message: message
+        });
+      } else if (product.price < 50) {
+        console.log('NO');
+        let message = 'Cannot apply promotion on Product with a price lower than 50 MAD.';
         res.status(400).json({
           message: message
         });
@@ -170,35 +177,52 @@ exports.getMyPromotions = (req, res, next) => {
   // Get current date
   const date = new Date();
 
-  let hour = date.getHours();
+  const hour = date.getHours();
 
-  let day = ("0" + date.getDate()).slice(-2);
-  let month = ("0" + (date.getMonth() + 1)).slice(-2);
-  let year = date.getFullYear()
+  const day = ("0" + date.getDate()).slice(-2);
+  const month = ("0" + (date.getMonth() + 1)).slice(-2);
+  const year = date.getFullYear()
 
-  let fullDate = year + "-" + month + "-" + day;
+  const currentDate = year + "-" + month + "-" + day;
 
   // Check if current hour is between 8am and 12pm
-  if (hour >= 8 && hour <= 12) {
+  // if (hour >= 8 && hour <= 12) {
   // Get all promotions affected to the manager by category and center with product informations
-  Promotion.findAll({ include: [{ model: Product, where: { category: req.category } }, { model: Center }], where: { centerId: req.centerId, status: 'Untreated', day: fullDate }, raw: true })
+  Promotion.findAll({ include: [{ model: Product, where: { category: req.category } }, { model: Center }], where: { centerId: req.centerId, status: 'Untreated' }, raw: true })
     .then(promotions => {
       if (promotions.length > 0) {
-        res.status(200).json({
-          message: `Promotions of category ${req.category} fetched successfully`,
-          promotions: promotions
-        });
+        const inRange = [];
+        for (let promotion of promotions) {
+          const from = promotion.startingDate;
+          const to = promotion.endingDate;
+          if (from.localeCompare(currentDate) <= 0 && to.localeCompare(currentDate) >= 0) {
+            console.log("Date is in range")
+            inRange.push(promotion);
+          } else {
+            console.log("Date is not in range")
+          }
+        }
+        if (inRange.length > 0) {
+          res.status(200).json({
+            message: `Promotions of category ${req.category} fetched successfully`,
+            promotions: inRange
+          });
+        } else {
+          res.status(200).json({
+            message: 'There are no promotions available.'
+          });
+        }
       } else {
         res.status(200).json({
           message: 'There are no promotions available.'
         });
       }
     })
-  } else {
-    res.status(200).json({
-      message: 'You are connected outside of the given time range.'
-    });
-  }
+  // } else {
+  //   res.status(200).json({
+  //     message: 'You are connected outside of the given time range.'
+  //   });
+  // }
 };
 
 exports.getPromotionById = (req, res, next) => {

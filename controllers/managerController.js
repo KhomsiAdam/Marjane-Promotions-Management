@@ -47,6 +47,7 @@ exports.register = (req, res, next) => {
         email: email,
         password: hashedPw,
         category: category,
+        status: 'Active',
         centerId: centerId
       });
       return user.save();
@@ -119,12 +120,22 @@ exports.login = (req, res, next) => {
       let day = ("0" + date.getDate()).slice(-2);
       let month = ("0" + (date.getMonth() + 1)).slice(-2);
       let year = date.getFullYear()
-      let fullDate = year + "-" + month + "-" + day;
+      let currentDate = year + "-" + month + "-" + day;
       // Get all promotions of same category of manager to mark as 'Untreated'
-      Promotion.findAll({ include: [{ model: Product, where: { category: loadedUser.category } }], where: { status: 'Pending', day: fullDate }, raw: true })
+      Promotion.findAll({ include: [{ model: Product, where: { category: loadedUser.category } }], where: { status: 'Pending' }, raw: true })
         .then(promotions => {
-          console.log(promotions);
-          promotions.forEach(promotion => {
+          const inRange = [];
+          for (let promotion of promotions) {
+            const from = promotion.startingDate;
+            const to = promotion.endingDate;
+            if (from.localeCompare(currentDate) <= 0 && to.localeCompare(currentDate) >= 0) {
+              console.log("Date is in range")
+              inRange.push(promotion);
+            } else {
+              console.log("Date is not in range")
+            }
+          }
+          inRange.forEach(promotion => {
             console.log(promotion);
             Promotion.update({ status: 'Untreated' }, { where: { id: promotion.id } });
           });
