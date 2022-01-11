@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
       location.replace('/');
     })
   }
-
 })
 
 window.addEventListener('load', () => {

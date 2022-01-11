@@ -166,10 +166,10 @@ export class SuperDashboard extends View {
             <div class="flex justify-between items-center">
             <h2 class="my-6 text-2xl font-semibold text-gray-700">Logs</h2>
 
-            <a href="/super/dashboard/logs" nav-link class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-indigo-900 border border-transparent rounded-lg active:bg-yellow-500 hover:bg-yellow-500 focus:outline-none focus:shadow-outline-yellow" >
+            <button id="download-logs" class="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-indigo-900 border border-transparent rounded-lg active:bg-yellow-500 hover:bg-yellow-500 focus:outline-none focus:shadow-outline-yellow" >
               Download Logs File
               <span class="ml-2">+</span>
-            </a>
+            </button>
             </div>
 
               <div class="w-full overflow-hidden rounded-lg shadow-xs">

@@ -2,6 +2,7 @@
 import Admin from './classes/Admin.js';
 import Manager from './classes/Manager.js';
 import Promotion from './classes/Promotion.js';
+import Logs from './classes/Logs.js';
 // Helpers
 import { regexInputs, regexEmail } from './helpers/regex.js';
 import { addError, regexError, regexEmailError, removeError } from './helpers/error.js';
@@ -148,5 +149,12 @@ export const initForms = () => {
     removeError(status, update_error);
     removeError(comment, update_error);
     removeError(stock, update_error);
+  }
+
+  if (document.getElementById('download-logs')) {
+    document.getElementById('download-logs').addEventListener('click', () => {
+      const logs = new Logs();
+      logs.logsToTxt();
+    })
   }
 }
