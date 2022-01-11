@@ -12,7 +12,7 @@ export class AdminManagersList extends View {
     let html = '';
     if (data.managers && data.managers.length > 0) {
       for (let manager of data.managers) {
-        const createdAt = new Date(admin.createdAt).toISOString().substring(0, 10);
+        const createdAt = new Date(manager.createdAt).toISOString().substring(0, 10);
         html += `
         <tr class="text-gray-700 dark:text-gray-400">
           <td class="px-4 py-3">

@@ -21,11 +21,15 @@ const navigateTo = url => {
 window.addEventListener('popstate', router);
 
 document.addEventListener('DOMContentLoaded', () => {
+
   // Disable default link behaviors and navigate to selected view
   document.body.addEventListener('click', e => {
     if (e.target.matches('[nav-link]')) {
       e.preventDefault();
       navigateTo(e.target.href);
+    } else if (e.target.closest('[nav-link]')) {
+      e.preventDefault();
+      navigateTo(e.target.closest('[nav-link]').href);
     }
   })
 

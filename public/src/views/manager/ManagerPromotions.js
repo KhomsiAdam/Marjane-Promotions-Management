@@ -40,7 +40,7 @@ export class ManagerPromotions extends View {
             ${promotion.discount}%
           </td>
           <td class="px-4 py-3 text-sm">
-            ${promotion.fidelity} MAD
+            ${promotion.fidelity} points
           </td>
           <td class="px-4 py-3 text-sm">
             ${promotion.startingDate}
@@ -56,6 +56,11 @@ export class ManagerPromotions extends View {
           <td class="px-4 py-3 text-sm">
             ${promotion.comment}
           </td>
+          <td class="px-4 py-3">
+            <a class="flex items-center justify-center px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit" href="/manager/promotion/${promotion.id}" nav-link>
+              <span class="material-icons">edit</span>
+            </a>
+        </td>
         </tr>
       `
       }
@@ -85,6 +90,7 @@ export class ManagerPromotions extends View {
                       <th class="px-4 py-3">Ending</th>
                       <th class="px-4 py-3">Status</th>
                       <th class="px-4 py-3">Comment</th>
+                      <th class="px-4 py-3">Actions</th>
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -103,7 +109,8 @@ export class ManagerPromotions extends View {
   async viewPromotionUpdate() {
     const data = await fetchWithToken('POST', `http://localhost:4000/manager/promotion/${this.params.id}`, localStorage.getItem('token'));
     console.log(data);
-    return `
+    if (data && data.promotion) {
+      return `
       <main class="bg-gray-100 w-full h-screen pt-[5.5rem] overflow-y-auto">
             <div class="container px-10 mx-auto grid">
             <h2 class="my-6 text-2xl text-center font-semibold text-gray-700">Update Promotion</h2>
@@ -143,5 +150,15 @@ export class ManagerPromotions extends View {
             </div>
           </main>
         `
+    } else {
+    return `
+      <main class="bg-gray-100 w-full h-screen pt-[5.5rem] overflow-y-auto">
+        <div class="container px-10 mx-auto grid">
+          <h2 class="my-6 text-2xl text-center font-semibold text-gray-700">There is no promotion available with this id.</h2>        
+        </div>
+    </main>
+    `
+    }
+
   }
 }
