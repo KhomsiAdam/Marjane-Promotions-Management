@@ -42,7 +42,7 @@ export default class Promotion {
       "promotionId": this.promotionId,
       "status": this.status,
       "comment": this.comment,
-      "stock": this.stock
+      "currentStock": this.stock
     }
 
     // Update promotion

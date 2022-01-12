@@ -16,7 +16,7 @@ export class Login extends View {
         <label for="email" class="form__label font-bold mb-2">Email</label>
         <input type="text" name="email" id="email" class="form__input appearance-none border-2 rounded w-full py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:border-indigo-900 focus:bg-white text-gray-700 mb-5">
 
-        <label for="password" class="form__label font-bold mb-2">Mot de passe</label>
+        <label for="password" class="form__label font-bold mb-2">Password</label>
         <div class="password-container relative mb-5">
             <input type="password" name="password" id="password" class="form__input appearance-none border-2 rounded w-full py-3 px-3 leading-tight border-gray-300 bg-gray-100 focus:border-indigo-900 focus:bg-white text-gray-700 pr-10">
             <span class="material-icons absolute inset-y-0 right-1 flex items-center p-3 cursor-pointer select-none" id="password-eyecon">visibility_off</span>

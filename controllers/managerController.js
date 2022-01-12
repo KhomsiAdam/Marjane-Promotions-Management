@@ -152,19 +152,19 @@ exports.login = (req, res, next) => {
 
 exports.getManagers = (req, res, next) => {
   // Get all products 
-  Manager.findAll({ attributes: ['id', 'email', 'category', 'centerId', 'createdAt'], include: [{ model: Center, attributes: ['name', 'city'] }], raw: true })
+  Manager.findAll({ attributes: ['id', 'email', 'category', 'centerId', 'createdAt'], include: [{ model: Center, attributes: ['name', 'city'] }], where: { centerId: req.centerId }, raw: true })
     .then(managers => {
-      if (managers.length > 0) {
-        res.status(200).json({
-          message: `Managers fetched successfully`,
-          managers: managers
-        });
-      } else {
-        res.status(200).json({
-          message: 'There are no Managers available.'
-        });
-      }
-    })
+    if (managers.length > 0) {
+      res.status(200).json({
+        message: `Managers fetched successfully`,
+        managers: managers
+      });
+    } else {
+      res.status(200).json({
+        message: 'There are no Managers available.'
+      });
+    }
+  })
 }
 
 // Verify

@@ -186,7 +186,7 @@ exports.getMyPromotions = (req, res, next) => {
   const currentDate = year + "-" + month + "-" + day;
 
   // Check if current hour is between 8am and 12pm
-  // if (hour >= 8 && hour <= 12) {
+  if (hour >= 8 && hour <= 12) {
   // Get all promotions affected to the manager by category and center with product informations
   Promotion.findAll({ include: [{ model: Product, where: { category: req.category } }, { model: Center }], where: { centerId: req.centerId, status: 'Untreated' }, raw: true })
     .then(promotions => {
@@ -218,11 +218,11 @@ exports.getMyPromotions = (req, res, next) => {
         });
       }
     })
-  // } else {
-  //   res.status(200).json({
-  //     message: 'You are connected outside of the given time range.'
-  //   });
-  // }
+  } else {
+    res.status(200).json({
+      message: 'You are connected outside of the given time range.'
+    });
+  }
 };
 
 exports.getPromotionById = (req, res, next) => {
@@ -250,6 +250,7 @@ exports.updatePromotion = (req, res, next) => {
     error.statusCode = 422;
     throw error;
   }
+  const userId = req.id;
   const status = req.body.status;
   const comment = req.body.comment;
   const currentStock = req.body.currentStock;
@@ -257,7 +258,7 @@ exports.updatePromotion = (req, res, next) => {
     .then(result => {
       logController.saveLog(
         "Manager",
-        req.id,
+        userId,
         "Promotion update",
         `Manager of (${req.category}) aisle processed promotion: ${promotionId} of center: ${req.centerId}`
       );
