@@ -40,4 +40,4 @@ SuperAdmin credentials:
 Email: `superadmin@marjane.com`
 Password: `superadmin`
 
-After creating Admins or Managers, a link will be generated in the terminal with their credentials (email and randmly generated password).
+After creating Admins or Managers, a link will be generated in the terminal with their credentials (email and randomly generated password).
